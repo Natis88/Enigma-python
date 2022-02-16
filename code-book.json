@@ -1,0 +1,65 @@
+{
+  "1": {
+    "rotors": [
+      "I",
+      "II",
+      "III"
+    ],
+    "settings": "ABC",
+    "positions": "DEF"
+  },
+  "2": {
+    "rotors": [
+      "II",
+      "III",
+      "IV"
+    ],
+    "settings": "JBK",
+    "positions": "TUV"
+  },
+  "3": {
+    "rotors": [
+      "II",
+      "IV",
+      "III"
+    ],
+    "settings": "JGK",
+    "positions": "OUV"
+  },
+  "4": {
+    "rotors": [
+      "III",
+      "II",
+      "V"
+    ],
+    "settings": "JWK",
+    "positions": "XWZ"
+  },
+  "5": {
+    "rotors": [
+      "II",
+      "III",
+      "IV"
+    ],
+    "settings": "EIC",
+    "positions": "MOV"
+  },
+  "6": {
+    "rotors": [
+      "II",
+      "V",
+      "IV"
+    ],
+    "settings": "JBK",
+    "positions": "TUV"
+  },
+  "7": {
+    "rotors": [
+      "II",
+      "IV",
+      "III"
+    ],
+    "settings": "JGK",
+    "positions": "OUV"
+  }
+}

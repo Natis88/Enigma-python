@@ -1,0 +1,22 @@
+{
+    "I": {
+        "cipher": "EKMFLGDQVZNTOWYHXUSPAIBRCJ",
+        "notch": "Q"
+    },
+    "II": {
+        "cipher": "AJDKSIRUXBLHWTMCQGZNPYFVOE",
+        "notch": "E"
+    },
+    "III": {
+        "cipher": "BDFHJLCPRTXVZNYEIWGAKMUSQO",
+        "notch": "V"
+    },
+    "IV": {
+        "cipher": "ESOVPZJAYQUIRHXLNFTGKDCMWB",
+        "notch": "J"
+    },
+    "V": {
+        "cipher": "VZBRGITYUPSDNHLXAWMJQOFECK",
+        "notch": "Z"
+    }
+}
