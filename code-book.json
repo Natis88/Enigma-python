@@ -3,63 +3,70 @@
     "rotors": [
       "I",
       "II",
-      "III"
+      "III",
+      "IV"
     ],
-    "settings": "ABC",
-    "positions": "DEF"
+    "settings": "ABCD",
+    "positions": "DEFG"
   },
   "2": {
     "rotors": [
       "II",
       "III",
-      "IV"
+      "IV",
+      "I"
     ],
-    "settings": "JBK",
-    "positions": "TUV"
+    "settings": "JBKR",
+    "positions": "TUVW"
   },
   "3": {
     "rotors": [
       "II",
       "IV",
-      "III"
+      "III",
+      "I"
     ],
-    "settings": "JGK",
-    "positions": "OUV"
+    "settings": "JGKP",
+    "positions": "OUVM"
   },
   "4": {
     "rotors": [
       "III",
       "II",
-      "V"
+      "IV",
+      "I"
     ],
-    "settings": "JWK",
-    "positions": "XWZ"
+    "settings": "JWKI",
+    "positions": "XWZO"
   },
   "5": {
     "rotors": [
       "II",
       "III",
-      "IV"
+      "IV",
+      "I"
     ],
-    "settings": "EIC",
-    "positions": "MOV"
+    "settings": "EICT",
+    "positions": "MOVI"
   },
   "6": {
     "rotors": [
       "II",
-      "V",
-      "IV"
+      "III",
+      "IV",
+      "I"
     ],
-    "settings": "JBK",
-    "positions": "TUV"
+    "settings": "JBKC",
+    "positions": "TUVX"
   },
   "7": {
     "rotors": [
       "II",
       "IV",
-      "III"
+      "III",
+      "I"
     ],
-    "settings": "JGK",
-    "positions": "OUV"
+    "settings": "JGKQ",
+    "positions": "OUVZ"
   }
 }

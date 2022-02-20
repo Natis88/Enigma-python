@@ -13,7 +13,7 @@ class Rotor:
     position: chr
     settings: chr
 
-#Fully parametrize constructor
+# Fully parametrize constructor
     def __init__(self, name, position, settings):
         self.name = name
         self.cypher = rings[name]["cipher"]
@@ -22,18 +22,18 @@ class Rotor:
         self.settings = settings
         self._initialize()
 
-#Initialize rotor by the given settings
+# Initialize rotor by the given settings
     def _initialize(self):
         self.cypher = Rotor.caesarShift(
             self.cypher, ALPHA.index(self.settings))
         self.cypher = Rotor._rotate(self.cypher, ALPHA.index(self.settings))
 
-#Check if rotor position is at notch
+# Check if rotor position is at notch
     def at_notch(self):
         return self.notch == self.position
 
     @staticmethod
-    def caesarShift(string, shift):#caesarShift on the given string
+    def caesarShift(string, shift):  # caesarShift on the given string
 
         cipher = ''
         for char in string:
@@ -45,7 +45,8 @@ class Rotor:
                 cipher += chr((ord(char) + shift - 97) % len(ALPHA) + 97)
 
         return cipher
-#Revers the string by offset
+# Revers the string by offset
+
     @staticmethod
     def _rotate(text: str, offset: int):
 
@@ -53,18 +54,19 @@ class Rotor:
             return text[len(ALPHA)-offset:] + text[0:len(ALPHA)-offset]
         return text
 
-    #Increment position by 1
+    # Increment position by 1
     def turn(self):
         self.position = ALPHA[((ALPHA.index(self.position)) + 1) % len(ALPHA)]
-   
-    #Encode string first:ALPHA,second:cypher
+
+    # Encode string first:ALPHA,second:cypher
     def forward_encode(self, letter: chr):
         return Rotor._encode_letter(letter, self.position, ALPHA, self.cypher)
 
-    #Encode string first:cypher,second:ALPHA
-    def backward_encode(self, letter: chr): 
+    # Encode string first:cypher,second:ALPHA
+    def backward_encode(self, letter: chr):
         return Rotor._encode_letter(letter, self.position, self.cypher, ALPHA)
-    #Return encoded character
+    # Return encoded character
+
     @staticmethod
     def _encode_letter(letter: chr, position: chr, alpha: str, rotor: str):
         size = len(ALPHA)
