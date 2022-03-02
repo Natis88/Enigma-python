@@ -15,8 +15,7 @@ class Enigma:
     day = str(date.weekday(date.today()))
 
     # Fully parametrize constructor by OS date
-    def __init__(self, code_book: dict,wheels:int):
-
+    def __init__(self, code_book: dict, wheels: int):
 
         self.I = Rotor(code_book[self.day]["rotors"][0], code_book[self.day]
                        ["positions"][0], code_book[self.day]["settings"][0])
@@ -24,9 +23,9 @@ class Enigma:
                         ["positions"][1], code_book[self.day]["settings"][1])
         self.III = Rotor(code_book[self.day]["rotors"][2], code_book[self.day]
                          ["positions"][2], code_book[self.day]["settings"][2])
-        if wheels==4:
+        if wheels == 4:
             self.IV = Rotor(code_book[self.day]["rotors"][3], code_book[self.day]
-                        ["positions"][3], code_book[self.day]["settings"][3])
+                            ["positions"][3], code_book[self.day]["settings"][3])
         self.make_plugBoard()
 
     def _reflector(self, to_ref: str):
@@ -125,8 +124,8 @@ class Enigma:
         return eLetter
     # Initialize enigma object
 
-    def reset(self,mode):
-        return self.__init__(code_book=self.code_book,wheels=mode)
+    def reset(self, mode):
+        return self.__init__(code_book=self.code_book, wheels=mode)
 
     def run_enigma(self, text: str, mode: int):
         a_list = []
@@ -195,7 +194,7 @@ if __name__ == '__main__':
             l.append(a)
             reader.write_to_file(a, file_name)
         print(f"\n>>>{action}<<< ", *l, sep="\n")
-        enigma.reset()
+        enigma.reset(mode)
         return l
       # Print transmission to console without spaces
 
@@ -208,7 +207,7 @@ if __name__ == '__main__':
             l.append(a)
             reader.write_to_file(a, file_name)
         print(f"\n>>>{action}<<<", *l, sep="\n")
-        enigma.reset()
+        enigma.reset(mode)
         return l
 
     # Handle write to file function
@@ -304,7 +303,7 @@ if __name__ == '__main__':
         return mode
 
 cb = reader.read_json("code-book.json")
-enigma = Enigma(cb,3)
+enigma = Enigma(cb, 3)
 starter()
 mode = choose_machine()
 show_Menu()
