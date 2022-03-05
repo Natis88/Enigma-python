@@ -3,8 +3,6 @@ from Reader import *
 
 ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-rings = reader.read_json("rings.json")
-
 
 class Rotor:
     name: str
@@ -14,10 +12,10 @@ class Rotor:
     settings: chr
 
 # Fully parametrize constructor
-    def __init__(self, name, position, settings):
+    def __init__(self, name, position, settings, cypher, notch):
         self.name = name
-        self.cypher = rings[name]["cipher"]
-        self.notch = rings[name]["notch"]
+        self.cypher = cypher
+        self.notch = notch
         self.position = position
         self.settings = settings
         self._initialize()
