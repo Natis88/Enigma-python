@@ -4,11 +4,12 @@ from Reader import *
 from Rotor import *
 
 
+rings = reader.read_json("rings.json")
+
+
 class Enigma:
-    I: Rotor
-    II: Rotor
-    III: Rotor
-    IV: Rotor
+
+    rotors = []
     plugboardDict = {}
     reflector = reader.read_json("reflector.json")
     code_book = reader.read_json("code-book.json")
@@ -17,94 +18,49 @@ class Enigma:
     # Fully parametrize constructor by OS date
     def __init__(self, code_book: dict, wheels: int):
 
-        self.I = Rotor(code_book[self.day]["rotors"][0], code_book[self.day]
-                       ["positions"][0], code_book[self.day]["settings"][0])
-        self.II = Rotor(code_book[self.day]["rotors"][1], code_book[self.day]
-                        ["positions"][1], code_book[self.day]["settings"][1])
-        self.III = Rotor(code_book[self.day]["rotors"][2], code_book[self.day]
-                         ["positions"][2], code_book[self.day]["settings"][2])
-        if wheels == 4:
-            self.IV = Rotor(code_book[self.day]["rotors"][3], code_book[self.day]
-                            ["positions"][3], code_book[self.day]["settings"][3])
+        self.rotors = []
+
+        for item in range(wheels):
+            name = code_book[self.day]["rotors"][item]
+            position = code_book[self.day]["positions"][item]
+            settings = code_book[self.day]["settings"][item]
+            cypher = rings[code_book[self.day]["rotors"][item]]["cipher"]
+            notch = rings[code_book[self.day]["rotors"][item]]["notch"]
+
+            self.rotors.append(Rotor(name, position, settings, cypher, notch))
+
         self.make_plugBoard()
 
     def _reflector(self, to_ref: str):
         return self.reflector[self.day][to_ref]
     # Fully character encrypt
 
-    def encrypt(self, char: str) -> str():
+    def rotate(self):
 
-        rotor_trigger = False
+        for rotor in reversed(self.rotors):
+            rotor_trigger = rotor.at_notch()
+            rotor.turn()
+            if not rotor_trigger:
+                break
 
-        if self.III.at_notch():
-            rotor_trigger = True
-        self.III.turn()
+    def encrypt_Letter(self, letter: chr, mode: bool):
 
-        if rotor_trigger:
-            rotor_trigger = False
-            if self.II.at_notch():
-                rotor_trigger = True
-            self.II.turn
-
-        if rotor_trigger:
-            rotor_trigger = False
-            self.I.turn()
+        if mode:
+            for rotor in reversed(self.rotors):
+                letter = rotor.forward_encode(letter)
         else:
-            if self.II.at_notch():
-                self.II.turn()
-                self.I.turn()
-        letter = self.plugBoard_encrypt(char)
-        letter = self.III.forward_encode(letter)
-        letter = self.II.forward_encode(letter)
-        letter = self.I.forward_encode(letter)
-
-        letter = self._reflector(letter)
-
-        letter = self.I.backward_encode(letter)
-        letter = self.II.backward_encode(letter)
-        letter = self.III.backward_encode(letter)
-        letter = self.plugBoard_encrypt(letter)
+            for rotor in (self.rotors):
+                letter = rotor.backward_encode(letter)
         return letter
 
-    def encrypt_M4(self, char: str) -> str():
+    def encrypt(self, char: str) -> str():
 
-        rotor_trigger = False
-
-        if self.IV.at_notch():
-            rotor_trigger = True
-        self.IV.turn()
-
-        if rotor_trigger:
-            rotor_trigger = False
-            if self.III.at_notch():
-                rotor_trigger = True
-            self.III.turn
-        if rotor_trigger:
-            rotor_trigger = False
-            if self.II.at_notch():
-                rotor_trigger = True
-            self.II.turn
-
-        if rotor_trigger:
-            rotor_trigger = False
-            self.I.turn()
-        else:
-            if self.II.at_notch():
-                self.II.turn()
-                self.I.turn()
+        self.rotate()
 
         letter = self.plugBoard_encrypt(char)
-        letter = self.IV.forward_encode(letter)
-        letter = self.III.forward_encode(letter)
-        letter = self.II.forward_encode(letter)
-        letter = self.I.forward_encode(letter)
-
+        letter = self.encrypt_Letter(letter, True)
         letter = self._reflector(letter)
-
-        letter = self.I.backward_encode(letter)
-        letter = self.II.backward_encode(letter)
-        letter = self.III.backward_encode(letter)
-        letter = self.IV.backward_encode(letter)
+        letter = self.encrypt_Letter(letter, False)
         letter = self.plugBoard_encrypt(letter)
         return letter
 
@@ -127,7 +83,7 @@ class Enigma:
     def reset(self, mode):
         return self.__init__(code_book=self.code_book, wheels=mode)
 
-    def run_enigma(self, text: str, mode: int):
+    def run_enigma(self, text: str):
         a_list = []
         cnt = 0
         for c in text:
@@ -138,10 +94,7 @@ class Enigma:
                 cnt += 1
                 a_list.append(let)
             else:
-                if mode == 4:
-                    let = self.encrypt_M4(let.upper())
-                else:
-                    let = self.encrypt(let.upper())
+                let = self.encrypt(let.upper())
                 a_list.append(let)
                 cnt += 1
 
@@ -151,7 +104,7 @@ class Enigma:
 
         return ''.join(a_list)
 
-    def run_enigma_original_spaces(self, text: str, mode: int):
+    def run_enigma_original_spaces(self, text: str):
         a_list = []
         for c in text:
             let = c
@@ -162,10 +115,7 @@ class Enigma:
             if let.isdigit():
                 a_list.append(let)
             else:
-                if mode == 4:
-                    let = self.encrypt_M4(let.upper())
-                else:
-                    let = self.encrypt(let.upper())
+                let = self.encrypt(let.upper())
                 a_list.append(let)
 
         return ''.join(a_list)
@@ -190,7 +140,7 @@ if __name__ == '__main__':
         print("\nOriginal Spaces")
         l = []
         for line in text:
-            a = enigma.run_enigma_original_spaces(line, mode)
+            a = enigma.run_enigma_original_spaces(line)
             l.append(a)
             reader.write_to_file(a, file_name)
         print(f"\n>>>{action}<<< ", *l, sep="\n")
@@ -203,7 +153,7 @@ if __name__ == '__main__':
         l = []
         for line in text:
 
-            a = enigma.run_enigma(line, mode)
+            a = enigma.run_enigma(line)
             l.append(a)
             reader.write_to_file(a, file_name)
         print(f"\n>>>{action}<<<", *l, sep="\n")
@@ -237,17 +187,17 @@ if __name__ == '__main__':
                 enigma.reset(mode)
                 text = input("Enter text to encrypt: ")
                 print("Encode")
-                encrypted = enigma.run_enigma(text, mode)
+                encrypted = enigma.run_enigma(text)
                 print("Alex =", encrypted)
                 enigma.reset(mode)
-                encrypted1 = enigma.run_enigma_original_spaces(text, mode)
+                encrypted1 = enigma.run_enigma_original_spaces(text)
                 print("Original =", encrypted1)
                 print("Decode")
                 enigma.reset(mode)
-                print("Alex =", enigma.run_enigma(encrypted, mode))
+                print("Alex =", enigma.run_enigma(encrypted))
                 enigma.reset(mode)
                 print("Original =", enigma.run_enigma_original_spaces(
-                    encrypted1, mode))
+                    encrypted1))
                 show_Menu()
                 work(validate(1, 3), mode)
             case 2:
@@ -303,8 +253,9 @@ if __name__ == '__main__':
         return mode
 
 cb = reader.read_json("code-book.json")
-enigma = Enigma(cb, 3)
-starter()
+
 mode = choose_machine()
+enigma = Enigma(cb, mode)
+starter()
 show_Menu()
 work(validate(1, 3), mode)
