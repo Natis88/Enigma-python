@@ -30,17 +30,13 @@ class Rotor:
     def at_notch(self):
         return self.notch == self.position
 
-    @staticmethod
+     @staticmethod
     def caesarShift(string, shift):  # caesarShift on the given string
-
+        s=string.upper()    
         cipher = ''
-        for char in string:
-            if char == ' ':
-                cipher += char
-            elif char.isupper():
-                cipher += chr((ord(char) + shift - 65) % len(ALPHA) + 65)
-            else:
-                cipher += chr((ord(char) + shift - 97) % len(ALPHA) + 97)
+        for char in s:
+           
+            cipher += chr((ord(char) + shift-65) % 26 + 65)
 
         return cipher
 # Revers the string by offset
